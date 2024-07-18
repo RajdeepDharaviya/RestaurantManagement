@@ -1,0 +1,51 @@
+
+{
+  "tblNO":1,
+  "capacity":4,
+  "tblId":"66921067c0a3a2806dc92240",
+  "isAvailable":false
+}
+{
+  "orderId":"66921128643a17d81356a557"
+}
+{
+"Name":"manchuriya",
+  "Description":"A very spicy chinese ",
+  "Price":150,
+  "Type":true,
+  "category":"chinese"
+}
+
+{
+"firstname":"rajdeep",
+"lastname":"dharaviya",
+"email":"raj@gmail.com",
+"role":"manager",
+"contact":1234567890,
+// "address":"Khimarana,Jamnagar",
+"password":"1234567890"
+}
+
+{
+  "orderQty":5,
+"menuItem":"66921021c0a3a2806dc92237",
+
+  "capacity":5,
+  "isBooked":false,
+  "isAvailable":true
+}
+
+{
+"tblNo":2,
+"capacity":"4"
+}
+
+{
+  
+  "orderId":"668fdad9e8258f4af1df6520",
+"resTbl":"668fd7b7ffed2646e2b7eec1",
+"resPerson":{
+  "TotalPersons":5
+},
+"resId":"66900e6c741bfffa8dfcb321"
+}
