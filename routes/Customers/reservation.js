@@ -13,7 +13,7 @@ resRouter.get("/", async (req, res) => {
     isAvailable: true,
     isBooked: false,
   });
-  if (tables) {
+  if (tables != []) {
     res.status(responseCode.Success).json({
       message: "Available tables",
       table: tables.map((table) => {
@@ -40,12 +40,12 @@ resRouter.post("/reservation", async (req, res) => {
     },
   });
 
-  if (reserved) {
+  if (reserved != []) {
     const upTbl = await Table.findByIdAndUpdate(body.resTbl, {
       isBooked: true,
     });
-    console.log(upTbl);
-    if (upTbl) {
+
+    if (upTbl != []) {
       res.status(responseCode.Success).json({
         message: "Your table reserved",
         reserved: reserved,
@@ -71,11 +71,11 @@ resRouter.put("/cancel", async (req, res) => {
     isBooked: false,
   });
 
-  if (upTbl) {
+  if (upTbl != []) {
     const reserved = await Reservation.findByIdAndUpdate(body.resId, {
       Status: "cancel",
     });
-    console.log(reserved);
+
     if (reserved) {
       res.status(responseCode.Success).json({
         message: "Your table reservation is canceled successfully!",

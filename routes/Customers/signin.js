@@ -4,6 +4,7 @@ const signinRoute = express.Router();
 const { responseCode } = require("../../config");
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../../config");
+const md5 = require("md5");
 
 // Route for Signin is
 /* ************** "http://localhost:3000/admin/signin" ***************/
@@ -13,15 +14,15 @@ signinRoute.post("/", async (req, res) => {
 
   // Inserting data into the database
   const user = await Customer.findOne({
-    username: body.username,
-    password: body.password,
+    email: body.username,
+    password: md5(body.password),
   });
 
   // give response to the user
-  if (user) {
+  if (user != [] && user != null) {
     const token = jwt.sign(
       {
-        email: user.username,
+        email: user.email,
         userId: user._id,
       },
       jwtSecret

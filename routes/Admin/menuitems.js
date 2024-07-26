@@ -11,7 +11,7 @@ mniRouter.use(Middleware);
 mniRouter.get("/", async (req, res) => {
   const menuItems = await MenuItem.find({});
 
-  if (menuItems) {
+  if (menuItems != []) {
     res.status(responseCode.Success).json({
       message: "Menuitems",
       menuItem: menuItems.map((menuItem) => {
@@ -37,7 +37,7 @@ mniRouter.post("/add", async (req, res) => {
     Price: body.Price,
     category: body.category,
   });
-  if (menuItem) {
+  if (menuItem != []) {
     res.status(responseCode.Success).json({
       message: "Menuitem added successfully!",
       menuItem: menuItem,

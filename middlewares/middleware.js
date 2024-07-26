@@ -10,10 +10,10 @@ const MiddlewareCustomer = async (req, res, next) => {
   if (fullToken[0] == "Bearer") {
     const userData = jwt.verify(fullToken[1], jwtSecret);
     const user = await Customer.findOne({
-      email: userData.username,
+      email: userData.email,
     });
 
-    if (user.email == userData.username) {
+    if (user != null) {
       //assigning userId for future use cases
       req.userId = userData.userId;
       next();

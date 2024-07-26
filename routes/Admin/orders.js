@@ -16,7 +16,7 @@ orderRoute.get("/", async (req, res) => {
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ["$_id", "$$cusId"] },
+              $expr: { $eq: ["$_id", "$cusId"] },
             },
           },
           {
@@ -69,7 +69,7 @@ orderRoute.get("/", async (req, res) => {
     address: order.CustomerDetails[0].address,
   };
 
-  if (orders) {
+  if (orders != null) {
     res.status(responseCode.Success).json({
       message: "Orders details",
       orderDetails: orderDetails,

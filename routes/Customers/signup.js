@@ -23,7 +23,7 @@ signupRoute.post("/", async (req, res) => {
     });
 
     // give response to the user
-    if (user) {
+    if (user != []) {
       res.status(responseCode.Success).json({
         message: "Your account has created successfully!",
       });

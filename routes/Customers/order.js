@@ -1,78 +1,68 @@
 const express = require("express");
-const orderRoute = express.Router();
-const { Orders } = require("../../db/db");
-const { responseCode } = require("../../config");
-const { MenuItem } = require("../../db/db");
 const { MiddlewareCustomer } = require("../../middlewares/middleware");
+const { Orders, MenuItem } = require("../../db/db");
+const { responseCode } = require("../../config");
+const orderRouter = express.Router();
+orderRouter.use(MiddlewareCustomer);
+const { ObjectId } = require("mongodb");
 
-orderRoute.use(MiddlewareCustomer);
+orderRouter.get("/", async (req, res) => {
+  const orderId = new ObjectId(req.query.orderId);
 
-// For Customer to see his/her all orders
-// Route for getting orders
-/* ************** "http://localhost:3000/user/cart/orders" ***************/
-orderRoute.get("/orders", async (req, res) => {
-  // Finding record from the database for the particular user using find()
-  const orders = await Orders.find({
-    customer: req.userId,
-  });
+  const order = await Orders.aggregate([
+    {
+      $match: {
+        _id: orderId,
+        customer: new ObjectId(req.userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "menuitems",
+        localField: "menuItem",
+        foreignField: "_id",
+        as: "menuitemDetails",
+      },
+    },
+    {
+      $unwind: "$menuitemDetails",
+    },
+    {
+      $project: {
+        _id: 1,
+        orderQty: 1,
+        orderPrice: 1,
+        Status: 1,
+        "menuitemDetails.Name": 1,
+        "menuitemDetails.Description": 1,
+        "menuitemDetails.Price": 1,
+        "menuitemDetails.Type": 1,
+        "menuitemDetails.category": 1,
+      },
+    },
+  ]);
 
-  //sendig response to the user
-  if (orders) {
+  if (order != null) {
     res.status(responseCode.Success).json({
-      message: "Orders details",
-      orders: orders,
-    });
-  } else {
-    res.status(responseCode.Success).send("You don't have orders yet!");
-  }
-});
-
-// For Customer to place order in the restaurant
-// Route for add orders
-/* ************** "http://localhost:3000/user/cart/neworders" ***************/
-orderRoute.post("/neworders", async (req, res) => {
-  const body = req.body;
-
-  // getting price for particular menuItem
-  const price = await MenuItem.findOne({
-    _id: body.menuItem,
-  });
-
-  const qty = body.orderQty;
-
-  // Calculating price for total order amount
-  const Orderprice = qty * price.Price;
-
-  // Inserting data into the database using create ()
-  const orders = await Orders.create({
-    menuItem: body.menuItem,
-    customer: req.userId,
-    orderQty: qty,
-    orderPrice: Orderprice,
-  });
-
-  //sending response to the user
-  if (orders) {
-    res.status(responseCode.Success).json({
-      message: "Your Order Placed!",
-      orders: orders,
+      message: "Order details",
+      order: order,
     });
   } else {
     res
       .status(responseCode.Success)
-      .send("Your order didn't placed!, Try again");
+      .send("Something wrong with server,Please try again after sometime!");
   }
 });
 
 // For Customer to place order in the restaurant
-// Route for add orders
+// Route for cancel order
 /* ************** "http://localhost:3000/user/cart/order/cancel" ***************/
-orderRoute.put("/order/cancel", async (req, res) => {
+orderRouter.put("/cancel", async (req, res) => {
   const body = req.body;
   const order = await Orders.findByIdAndUpdate(body.orderId, {
     Status: "canceled",
   });
-  if (order) {
+  if (order != []) {
     res.status(responseCode.Success).json({
       message: "Your Order canceled successfully!",
     });
@@ -83,4 +73,4 @@ orderRoute.put("/order/cancel", async (req, res) => {
   }
 });
 
-module.exports = { orderRoute };
+module.exports = { orderRouter };

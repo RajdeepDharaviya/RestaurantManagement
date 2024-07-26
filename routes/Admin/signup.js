@@ -10,7 +10,7 @@ const { usersignupSchema } = require("../../middlewares/validation");
 signupRoute.post("/", async (req, res) => {
   // Getting data from the user
   const body = req.body;
-  console.log(req.body);
+
   if (usersignupSchema.safeParse(body).success) {
     // Inserting data into the database
     const user = await User.create({
@@ -23,7 +23,7 @@ signupRoute.post("/", async (req, res) => {
     });
 
     // give response to the user
-    if (user) {
+    if (user != []) {
       res.status(responseCode.Success).json({
         message: "Your account has created successfully!",
       });
