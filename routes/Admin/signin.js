@@ -19,7 +19,7 @@ signinRoute.post("/", async (req, res) => {
   });
 
   // give response to the user
-  if (user != []) {
+  if (user != null) {
     console.log(user);
     const token = jwt.sign(
       {

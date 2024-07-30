@@ -10,7 +10,7 @@ tblRoute.use(Middleware);
 tblRoute.get("/table", async (req, res) => {
   const tables = await Table.find({});
 
-  if (tables) {
+  if (tables != null) {
     res.status(responseCode.Success).json({
       message: "The tables are :",
       table: tables.map((table) => {
@@ -32,7 +32,7 @@ tblRoute.post("/addtable", async (req, res) => {
     tblNo: body.tblNo,
     capacity: body.capacity,
   });
-  if (table) {
+  if (table != null) {
     res.status(responseCode.Success).json({
       message: "Tables added successfully!",
     });
@@ -53,7 +53,7 @@ tblRoute.put("/updatetables", async (req, res) => {
     isAvailable: body.isAvailable,
   });
 
-  if (table) {
+  if (table != null) {
     res.status(responseCode.Success).json({
       message: "Tabel updated successfully!",
     });

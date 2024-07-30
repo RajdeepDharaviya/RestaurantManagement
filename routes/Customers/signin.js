@@ -19,7 +19,7 @@ signinRoute.post("/", async (req, res) => {
   });
 
   // give response to the user
-  if (user != [] && user != null) {
+  if (user != null && user != null) {
     const token = jwt.sign(
       {
         email: user.email,
@@ -34,7 +34,7 @@ signinRoute.post("/", async (req, res) => {
   } else {
     res
       .status(responseCode.InternalServerError)
-      .send("Something wrong with server, please try again after sometime!");
+      .send("wrong credentials , try again");
   }
 });
 

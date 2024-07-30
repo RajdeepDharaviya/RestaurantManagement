@@ -45,7 +45,7 @@ ordersRoute.get("/orders", async (req, res) => {
     },
   ]);
   //sendig response to the user
-  if (orders != []) {
+  if (orders != null) {
     res.status(responseCode.Success).json({
       message: "Orders details",
       orders: orders,
@@ -74,7 +74,7 @@ ordersRoute.post("/order/add", async (req, res) => {
   });
 
   //sendig response to the user
-  if (orders != []) {
+  if (orders != null) {
     res.status(responseCode.Success).json({
       message: "Orders details",
       orders: orders,

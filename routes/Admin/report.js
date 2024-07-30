@@ -11,7 +11,7 @@ repRoute.use(Middleware);
 repRoute.get("/", async (req, res) => {
   const report = await Report.find();
 
-  if (report != []) {
+  if (report != null) {
     res.status(responseCode.Success).json({
       message: "Report card",
       report: report,
@@ -55,7 +55,7 @@ repRoute.post("/create", async (req, res) => {
     },
   });
 
-  if (report != []) {
+  if (report != null) {
     res.status(responseCode.Success).json({
       message: "Report card",
       report: report,

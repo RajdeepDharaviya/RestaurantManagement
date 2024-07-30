@@ -11,7 +11,7 @@ invRouter.use(Middleware);
 invRouter.get("/", async (req, res) => {
   const inventory = await Inventory.find();
 
-  if (inventory != []) {
+  if (inventory != null) {
     res.status(responseCode.Success).json({
       message: "The list of inventory",
       inventory: inventory,
@@ -37,7 +37,7 @@ invRouter.post("/add", async (req, res) => {
     Date: body.Date,
   });
 
-  if (inventory != []) {
+  if (inventory != null) {
     res.status(responseCode.Success).json({
       message: "The list added to inventory",
       inventory: inventory,
@@ -62,7 +62,7 @@ invRouter.put("/update", async (req, res) => {
     isAvailable: body.isAvailable,
   });
 
-  if (inventory != []) {
+  if (inventory != null) {
     res.status(responseCode.Success).json({
       message: "The list updated to inventory",
       inventory: inventory,

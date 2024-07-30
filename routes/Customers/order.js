@@ -62,7 +62,7 @@ orderRouter.put("/cancel", async (req, res) => {
   const order = await Orders.findByIdAndUpdate(body.orderId, {
     Status: "canceled",
   });
-  if (order != []) {
+  if (order != null) {
     res.status(responseCode.Success).json({
       message: "Your Order canceled successfully!",
     });

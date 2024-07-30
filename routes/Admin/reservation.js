@@ -9,7 +9,7 @@ resRouter.get("/", async (req, res) => {
     isDone: true,
     Status: "done",
   });
-  if (tables) {
+  if (tables != null) {
     res.status(responseCode.Success).json({
       message: "reserved tables",
       table: tables.map((table) => {
@@ -36,7 +36,7 @@ resRouter.post("/add", async (req, res) => {
     },
   });
 
-  if (reserved) {
+  if (reserved != null) {
     const upTbl = await Table.findByIdAndUpdate(body.resTbl, {
       isBooked: true,
     });
@@ -67,7 +67,7 @@ resRouter.put("/cancel", async (req, res) => {
     isBooked: false,
   });
 
-  if (upTbl) {
+  if (upTbl != null) {
     const reserved = await Reservation.findByIdAndUpdate(body.resId, {
       Status: "cancel",
     });
